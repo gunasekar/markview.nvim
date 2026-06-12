@@ -3,6 +3,7 @@ local inline = require("markview.renderers.markdown_inline");
 
 local spec = require("markview.spec");
 local utils = require("markview.utils");
+local smart_table = require("markview.renderers.markdown.smart_table");
 
 local filetypes = require("markview.filetypes");
 
@@ -1549,6 +1550,18 @@ markdown.table = function (buffer, item)
 		end)
 
 		if type(left_col) == "number" and left_col > range.col_start then
+			return;
+		end
+	end
+
+	--- Smart tables(`markdown.tables.smart_wrap`): fit the table to the window
+	--- and render it fully-virtually. With `'wrap'` on this replaces the
+	--- degraded rendering below for every table; with `'wrap'` off it only
+	--- takes over tables that overflow the window(fitting tables keep the
+	--- in-buffer rendering below). Falls through to the legacy path when the
+	--- virtual table cannot be placed(e.g. no line to anchor to, Neovim < 0.11).
+	if config.smart_wrap == true then
+		if smart_table.render(buffer, item, config, markdown.ns) == true then
 			return;
 		end
 	end

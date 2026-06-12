@@ -313,6 +313,10 @@
 ---@field enable boolean
 ---@field strict boolean When `true`, leading & trailing whitespaces are not considered part of the cell.
 ---
+---@field smart_wrap? boolean When `true`, oversized tables are shrunk to `wrap_width` & long cells are word-wrapped(drawn fully virtually over `conceal_lines`'d rows). Under `'wrap'` every table renders this way; under `'nowrap'` only overflowing tables do.
+---@field wrap_width? number Max table width when `smart_wrap` is on: a fraction `(0,1]` of the window, or an absolute column count `>1`. Defaults to `0.9`.
+---@field wrap_minwidth? integer Smallest width(in cells) a column may shrink to while fitting a table to the window.
+---
 ---@field block_decorator boolean Whether to draw top & bottom border.
 ---@field use_virt_lines boolean Whether to use virtual lines for the borders.
 ---

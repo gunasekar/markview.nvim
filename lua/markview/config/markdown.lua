@@ -623,6 +623,29 @@ return {
 		enable = true,
 		strict = false,
 
+		--- Smart tables. When `true`, tables that would overflow the window are
+		--- shrunk(widest column first) to `wrap_width`, any cell that no longer
+		--- fits is word-wrapped, and the table is drawn as virtual lines over
+		--- the hidden(`conceal_lines`) source rows.
+		---
+		--- With `'wrap'` on every table renders this way(replacing the degraded
+		--- legacy rendering that soft-wrap normally gets); with `'wrap'` off
+		--- only overflowing tables do — fitting tables keep the in-buffer
+		--- rendering(real text, visible cursor).
+		---
+		--- Use markview's hybrid mode to reveal a table's raw markdown for
+		--- editing(see `preview.hybrid_modes`); otherwise it reveals when you
+		--- leave preview mode(e.g. insert mode).
+		smart_wrap = false,
+		--- Maximum width the rendered table may occupy when `smart_wrap` is on.
+		---   * `0 < n <= 1` → that fraction of the window width(e.g. `0.9` = 90%).
+		---   * `n > 1`      → an absolute column count(clamped to the window).
+		--- Defaults to 90% of the window width, leaving some breathing room.
+		wrap_width = 0.9,
+		--- Smallest width(in cells) a column may be shrunk to while fitting a
+		--- table to the window. Long words are hard-broken at this width.
+		wrap_minwidth = 5,
+
 		block_decorator = true,
 		use_virt_lines = false,
 
