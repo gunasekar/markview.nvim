@@ -719,7 +719,9 @@ local u_bold_italic = lpeg.C( lpeg.P("_")^3 * u_bold_italic_content^1 * lpeg.P("
 local bold_italic = s_bold_italic + u_bold_italic;
 
 local code_content = lpeg.P("\\`") + ( 1 - lpeg.P("`") );
-local code = lpeg.C( at_valid * lpeg.P("`")^1 * code_content^1 * lpeg.P("`")^1 ) / md_str.code;
+--- Unlike emphasis(`*`/`_`), code spans are delimited unambiguously by backticks
+--- and need no whitespace boundary, so they render even mid-text(e.g. `(\`x\`)`).
+local code = lpeg.C( lpeg.P("`")^1 * code_content^1 * lpeg.P("`")^1 ) / md_str.code;
 
 local footnote_label_char = lpeg.R("09", "az", "AZ") + lpeg.S("-_.");
 local footnote = lpeg.C( lpeg.P("[^") * footnote_label_char^1 * lpeg.P("]") ) / md_str.footnote;
